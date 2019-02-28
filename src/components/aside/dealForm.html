@@ -1,0 +1,79 @@
+<form onsubmit="return false">
+  <div>
+    <Btn
+      on:click="{()=>closeModal()}"
+      small
+    >
+      Cancel
+    </Btn>
+    {!deal.id ? 'Add' : 'Edit'}
+    {deal.title || 'deal'}
+    <Btn
+      on:click="{()=>save()}"
+      disabled="{$busy}"
+      success
+      small
+    >
+      Save
+    </Btn>
+  </div>
+  {#each Object.entries($columnRules) as [col, rule] (col)}
+    {#if rule.editable}
+      <Input
+        type="{rule.type}"
+        value="{deal[col]}"
+        on:input="{e=>deal[col]=e.detail}"
+        on:enter="{()=>save(deal)}"
+        label="{rule.title}"
+      />
+    {/if}
+  {/each}
+</form>
+
+<script>
+  export let deal = {
+    title: '',
+    person: '',
+    organization: '',
+    expectDate: Date.now(),
+    value: null,
+    stage: 'Lead In'
+  }
+
+  import {
+    data,
+    closeModal,
+    columnRules,
+    pushAlert,
+    busy
+  } from '../../store/store.js'
+  import Input from '../inputs/text.html'
+  import Btn from '../buttons/btn.html'
+  import BtnGroup from '../buttons/btn-group.html'
+
+  const save = async () => {
+    if (await data.post(deal)) {
+      pushAlert('Insert deal:\n\n' + deal.title)
+      closeModal()
+    }
+  }
+</script>
+
+<style>
+  form {
+    width: 90%;
+    max-width: 550px;
+    display: flex;
+    flex-direction: column;
+  }
+  form > div {
+    font-size: 1.2rem;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  form > :global(*:not(:last-child)) {
+    margin-bottom: 1rem;
+  }
+</style>

@@ -1,0 +1,55 @@
+{#if !!$modal}
+  <aside
+    on:click="{e=>closeModal(e)}"
+    transition:fly
+  >
+    {#if !!switchModal()}
+      <svelte:component this="{switchModal()}" />
+    {/if}
+  </aside>
+{/if}
+<script>
+  import {
+    modal,
+    closeModal
+  } from '../../store/store.js'
+  import DealForm from '../aside/dealForm.html'
+  import DealsColumn from '../aside/dealsColumns.html'
+  import { fly } from 'svelte-transitions'
+
+  const switchModal = () => {
+    switch ($modal) {
+      case 'dealForm': return DealForm
+      case 'dealsColumns': return DealsColumn
+      default: return null
+    }
+  }
+</script>
+
+<style>
+  aside {
+    background: rgba(55,55,55,.5);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  aside > :global(*) {
+    background-color: #fff;
+    border: 1px solid #e6ecf5;
+    border-radius: 5px;
+    padding: 30px;
+    cursor: default;
+    max-width: 90%;
+    min-width: 320px;
+    max-height: 90%;
+    overflow-y: auto;
+  }
+</style>

@@ -1,0 +1,25 @@
+{#if !hidden}
+  <div
+    style="position:absolute;top:{top}px;left:{left}px;z-index:30"
+  >
+    <i on:click="{()=>hidden=true}">x</i>
+    <slot></slot>
+  </div>
+{/if}
+
+<script>
+  let top = 0
+  let left = 0
+  let hidden = true
+  export const show = (e) => {
+    const target = e.target || e.detail.target
+    if (!target) return
+    console.dir(target)
+    top = target.offsetTop + target.clientHeight
+    left = target.offsetLeft
+    hidden = false
+  }
+</script>
+
+<style>
+</style>

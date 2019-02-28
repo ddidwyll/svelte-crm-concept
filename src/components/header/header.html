@@ -1,0 +1,137 @@
+<header>
+  <BtnGroup>
+    <Btn
+      icon
+      flat
+      label="List"
+      active="{$viewStyle==='list'}"
+      on:click="{()=>viewStyle.set('list')}"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 14h4v-4H4v4zm0 5h4v-4H4v4zM4 9h4V5H4v4zm5 5h12v-4H9v4zm0 5h12v-4H9v4zM9 5v4h12V5H9z"/>
+        <path d="M0 0h24v24H0z" fill="none"/>
+      </svg>
+    </Btn>
+    <Btn
+      icon
+      flat
+      label="Pipeline"
+      active="{$viewStyle==='pipeline'}"
+      on:click="{()=>viewStyle.set('pipeline')}"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 18h5V5h-5v13zm-6 0h5V5H4v13zM16 5v13h5V5h-5z"/>
+        <path d="M0 0h24v24H0z" fill="none"/>
+      </svg>
+    </Btn>
+    <Btn
+      icon
+      flat
+      label="{!$dataState.archive.active?'Archive':'Actual'}"
+      on:click="{()=>data.archiveSet({active:!$dataState.archive.active})}"
+    >
+      {#if $dataState.archive.active}
+        <svg xmlns="http://www.w3.org/2000/svg">
+          <path d="M20.54 5.23l-1.39-1.68C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.48-.17-.93-.46-1.27zM12 17.5L6.5 12H10v-2h4v2h3.5L12 17.5zM5.12 5l.81-1h12l.94 1H5.12z"/>
+          <path d="M0 0h24v24H0z" fill="none"/>
+        </svg>
+      {:else}
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <defs>
+            <path id="a" d="M0 0h24v24H0V0z"/>
+          </defs>
+          <clipPath id="b">
+            <use xlink:href="#a" overflow="visible"/>
+          </clipPath>
+          <path clip-path="url(#b)" d="M20.55 5.22l-1.39-1.68C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.15.55L3.46 5.22C3.17 5.57 3 6.01 3 6.5V19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.49-.17-.93-.45-1.28zM12 9.5l5.5 5.5H14v2h-4v-2H6.5L12 9.5zM5.12 5l.82-1h12l.93 1H5.12z"/>
+        </svg>
+      {/if}
+    </Btn>
+  </BtnGroup>
+  <h1>
+    {#if !$dataState.archive.active}
+      Deals
+    {:else}
+      Archive
+    {/if}
+    <sup>
+      {$allDeals.count} /
+      ${$allDeals.value}
+    </sup>
+  </h1>
+  <BtnGroup>
+    <Btn
+      on:click="{()=>data.prevPage()}"
+      disabled="{!$dataState.page}"
+      label="Prev page"
+      icon
+      flat
+    >
+      <svg xmlns="http://www.w3.org/2000/svg">
+        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+        <path d="M0 0h24v24H0z" fill="none"/>
+      </svg>
+    </Btn>
+    <Btn
+      on:click="{()=>data.nextPage()}"
+      disabled="{$allDeals.count!==12}"
+      label="Next page"
+      icon
+      flat
+    >
+      <svg xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+        <path d="M0 0h24v24H0z" fill="none"/>
+      </svg>
+    </Btn>
+    <Btn
+      on:click="{()=>modal.set('dealForm')}"
+      disabled="{$dataState.archive.active}"
+      label="Add deal"
+      success
+      icon
+      flat
+    >
+      <svg xmlns="http://www.w3.org/2000/svg">
+        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+        <path d="M0 0h24v24H0z" fill="none"/>
+      </svg>
+    </Btn>
+  </BtnGroup>
+</header>
+
+<script>
+  import {
+    data,
+    dataState,
+    viewStyle,
+    allDeals,
+    modal
+  } from '../../store/store.js'
+  import BtnGroup from '../buttons/btn-group.html'
+  import Btn from '../buttons/btn.html'
+</script>
+
+<style>
+  header {
+    width: 100%;
+    height: 65px;
+    padding: 0px 1rem;
+    z-index: 10;
+    top: 0;
+    background-color: #fff;
+    border-bottom: 1px solid #e6ecf5;
+    box-shadow: 0 0 11px 0 #efefef;
+    margin-bottom: 2rem;
+    position: fixed;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  h1 {
+    font-size: 1.25rem;
+    margin: 0;
+    font-weight: 400;
+  }
+</style>

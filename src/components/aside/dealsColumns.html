@@ -1,0 +1,35 @@
+<div>
+  <Group
+    array
+    options="{options}"
+    binded="{$dealsColumns}"
+    on:change="{e=>dealsColumns.set(e.detail)}"
+  />
+</div>
+
+<script>
+  import {
+    dealsColumns
+  } from '../../store/store.js'
+  import Group from '../inputs/group.html'
+
+  const options = {
+    created: 'Created',
+    title: 'Title',
+    organization: 'Company',
+    person: 'Person',
+    stage: 'Stage',
+    value: 'Value',
+    expectDate: 'Expect Date'
+  }
+</script>
+
+<style>
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+  div > :global(label) {
+    margin: 9px 0;
+  }
+</style>

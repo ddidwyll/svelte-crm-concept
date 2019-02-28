@@ -1,0 +1,79 @@
+{#each Object.entries(options) as [value, label]}
+  <label
+    class:checked="{!!~binded.indexOf(value)}"
+    class:radio="{!array}"
+  >
+    {#if array}
+      <input
+        type="checkbox"
+        bind:group="{binded}"
+        value="{value}"
+        on:change="{()=>change()}"
+      >
+    {:else}
+      <input
+        type="radio"
+        bind:group="{binded}"
+        value="{value}"
+        on:change="{()=>change()}"
+      >
+    {/if}
+    {label}
+  </label>
+{/each}
+
+<script>
+  export let array = false
+  export let options = {}
+
+  export let binded = array ? [] : ''
+
+  import { createEventDispatcher } from 'svelte'
+  const dispatch = createEventDispatcher()
+  const change = () => {
+    dispatch('change', binded)
+  }
+</script>
+
+<style>
+  input {
+    margin: 0;
+    display: none;
+    width: 22px;
+  }
+  label {
+    padding-left: 0;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  label:before {
+    content: "";
+    width: 22px;
+    height: 22px;
+    display: inline-block;
+    border: 1px solid #bbc4d2;
+    box-shadow: inset 0 0 3px 0 #efefef, 0 0 2px 0 #efefef;
+    border-radius: 2px;
+    margin-right: 5px;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 22px;
+    text-align: center;
+    background-color: #fff;
+    cursor: pointer;
+    order: 1;
+  }
+  label.radio:before {
+    border-radius: 50%;
+  }
+  label.radio.checked:before {
+    content: "●";
+    color: #ff3c7e;
+  }
+  label.checked:before {
+    content: "■";
+    color: #ff3c7e;
+  }
+</style>

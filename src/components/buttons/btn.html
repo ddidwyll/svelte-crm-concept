@@ -1,0 +1,186 @@
+<button
+  aria-label="{label}"
+  title="{label}"
+  disabled="{disabled}"
+  hidden="{hidden}"
+  class:active
+  class:success
+  class:inverse
+  class:danger
+  class:flat
+  class:icon
+  on:click="{e=>dispatch('click',e)}"
+>
+  <slot></slot>
+</button>
+
+<script>
+  export let label = ''
+  export let disabled = false
+  export let hidden = false
+  export let active = false
+  export let success = false
+  export let inverse = false
+  export let danger = false
+  export let flat = false
+  export let icon = false
+  export let key = ''
+
+  import { createEventDispatcher } from 'svelte'
+  const dispatch = createEventDispatcher()
+</script>
+
+<style>
+  button {
+    cursor: pointer;
+    letter-spacing: 1px;
+    font-size: 13px;
+    border: 1px solid;
+    border-radius: 4px;
+    margin-right: 5px;
+    padding: 10px 20px;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+  }
+  button:last-child {
+    margin-right: unset;
+  }
+  button {
+    color: #515365;
+    background-color: #fff;
+    border-color: #ddd;
+    font-weight: 500;
+    box-shadow: 0 0 2px 0 #efefef;
+  }
+  button:hover,
+  button:focus,
+  button:active,
+  button.active {
+    background-color: #edf2f8;
+    border-color: #dce1e7;
+    box-shadow: inset 0 0 3px 0 #efefef;
+  }
+  button.active {
+    cursor: default;
+  }
+  button[disabled],
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  button.icon > :global(svg) {
+    fill: #a99f9f;
+    height: 23px;
+    width: 24px;
+  }
+  button.icon:not(.hack) {
+    padding: 4px 8px;
+  }
+  button:not(.icon).success {
+    background-color: #37c936;
+    border-color: #37c936;
+    color: #fff;
+  }
+  button.icon.success > :global(svg) {
+    fill: #4faf4e;
+  }
+  button:not(.icon).success:hover,
+  button:not(.icon).success:focus {
+    color: #fff;
+    background-color: #4bce4a;
+    border-color: #4bce4a;
+    box-shadow: none;
+  }
+  button:not(.icon).success:active {
+    background-color: #32b531;
+    border-color: #32b531;
+    box-shadow: none;
+  }
+  button:not(.icon).success.active {
+    background-color: #32b531;
+    border-color: #32b531;
+  }
+  button:not(.icon).success.active:hover,
+  button:not(.icon).success.active:focus {
+    background-color: #32b531;
+    border-color: #32b531;
+    box-shadow: none;
+  }
+  button:not(.icon).success.inverse {
+    background-color: #ebfaeb;
+    color: #37c936;
+    border-color: transparent;
+    box-shadow: none;
+  }
+  button:not(.icon).success.inverse:hover,
+  button:not(.icon).success.inverse:focus {
+    background-color: #d7f4d7;
+    color: #32b531;
+    border-color: transparent;
+  }
+  button:not(.icon).success[disabled] {
+    background-color: #37c936;
+    border-color: #37c936;
+    opacity: 0.35;
+  }
+  button:not(.icon).success[disabled]:hover,
+  button:not(.icon).success[disabled]:focus {
+   background-color: #37c936;
+   border-color: #37c936;
+  }
+  button:not(.icon).danger {
+    color: #ffffff;
+    background-color: #ff3c7e;
+    border-color: #ff3c7e;
+  }
+  button.icon.danger > :global(svg) {
+    fill: #c18899;
+  }
+  button:not(.icon).danger:hover,
+  button:not(.icon).danger:focus {
+    color: #ffffff;
+    background-color: #ff568f;
+    border-color: #ff568f;
+    box-shadow: none;
+  }
+  button:not(.icon).danger:active {
+    background-color: #ff236d;
+    border-color: #ff236d;
+    box-shadow: none;
+  }
+  button:not(.icon).danger.active {
+    background-color: #ff236d;
+    border-color: #ff236d;
+  }
+  button:not(.icon).danger.active:hover,
+  button:not(.icon).danger.active:focus {
+    background-color: #ff236d;
+    border-color: #ff236d;
+    box-shadow: none;
+  }
+  button:not(.icon).danger.inverse {
+    background-color: #ffeff4;
+    color: #ff3c7e;
+    border-color: transparent;
+    box-shadow: none;
+  }
+  button:not(.icon).danger.inverse:hover,
+  button:not(.icon).danger.inverse:focus {
+    background-color: #ffd5e3;
+    color: #ff236d;
+    border-color: transparent;
+  }
+  button:not(.icon).danger.disabled {
+    background-color: #ff3c7e;
+    border-color: #ff3c7e;
+    opacity: 0.35;
+  }
+  button:not(.icon).danger.disabled:hover,
+  button:not(.icon).danger.disabled:focus {
+    background-color: #ff3c7e;
+    border-color: #ff3c7e;
+  }
+  button.flat:not(.hack) {
+    box-shadow: none;
+  }
+</style>

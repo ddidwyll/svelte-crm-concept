@@ -1,0 +1,114 @@
+<input
+  type="{type||'text'}"
+  value="{formatValue(value)}"
+  min="{formatRange(min)}"
+  max="{formatRange(max)}"
+  class:small
+  class:large
+  class:error
+  class:valid
+  placeholder="{label||''}"
+  aria-label="{label||''}"
+  title="{label||''}"
+  disabled="{disabled}"
+  hidden="{hidden}"
+  required="{required}"
+  on:input="{e=>bubble(e)}"
+  on:change="{e=>bubble(e)}"
+  on:keydown="{e=>enter(e)}"
+>
+
+<script>
+  export let label = null
+  export let disabled = false
+  export let hidden = false
+  export let small = false
+  export let large = false
+  export let error = false
+  export let valid = false
+  export let required = false
+  export let type = 'text'
+  export let value = ''
+  export let min = null
+  export let max = null
+  
+  import { createEventDispatcher } from 'svelte'
+  const dispatch = createEventDispatcher()
+
+  const bubble = (e) => {
+    let value
+    switch (type) {
+      case 'date':
+        value = e.target.valueAsNumber
+        break
+      case 'number':
+        value = e.target.valueAsNumber
+        break
+      default:
+        value = e.target.value
+    }
+    dispatch(e.type, value)
+  }
+
+  const enter = (e) => {
+    if (e.keyCode !== 13) return
+    e.preventDefault()
+    dispatch('enter')
+  }
+
+  const formatValue = (value) => {
+    switch (type) {
+      case 'date':
+        return value > 0 ? (new Date(value))
+          .toLocaleDateString('en-GB')
+          .split('/').reverse().join('-')
+          : ''
+      case 'number':
+        return +value || null
+      default:
+        return value || ''
+    }
+  }
+
+  const formatRange = (value) => {
+    switch (type) {
+      case 'date': return value
+        ? formatValue(value) : ''
+      case 'number': return value || ''
+      default: return ''
+    }
+  }
+</script>
+
+<style>
+  input {
+    border: 1px solid #dde0e4;
+    border-radius: 2px;
+    height: 42px;
+    padding: 0 10px;
+    font-size: 14px;
+    color: #777;
+    outline: none;
+    transition: all 0.2s ease-in;
+    box-shadow: inset 0 0 3px 0 #efefef;
+  }
+  input:focus {
+    box-shadow: inset 0 0 13px 0 #efefef;
+  }
+  input.small {
+    height: 30px;
+    width: 130px;
+  }
+  input.large {
+    height: 50px;
+  }
+  input.error {
+    border-color: #ff3c7e;
+    background-color: #ffeff4;
+  }
+  input.valid {
+    border-color: #37c936;
+    background-color: #ebfaeb;
+    color: #278d26;
+  }
+</style>
